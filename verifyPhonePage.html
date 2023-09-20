@@ -6,7 +6,7 @@
     <title>Verify Phone Page</title>
   </head>
   <body>
-    <h1>Verify Phone Page</h1>
+    <h1>Verify Phone Page (Fake NICE Service)</h1>
     <form name="formPost" method="post">
       <label>Name</label>
       <input id="name" , name="name" /> <br />
@@ -25,16 +25,23 @@
     const params = Object.fromEntries(urlSearchParams.entries());
     console.log(params);
     document.getElementById("tokenVersionId").value = params.tokenVersionId;
-    document.formPost.action =
-      "https://dev-api.resellticket.co.kr/api/v1/nice/callback-success-from-niceapi/" +
-      params.tokenVersionId;
 
     function submit() {
-      document.getElementById("EncodeData").value =
-        document.getElementById("name").value +
-        "|" +
-        document.getElementById("phone").value;
-      document.formPost.submit();
+      if (document.getElementById("name").value === "FAIL") {
+        document.formPost.action =
+          "https://dev-api.resellticket.co.kr/api/v1/nice/callback-fail-from-niceapi";
+        document.formPost.submit();
+      } else {
+        document.formPost.action =
+          "https://dev-api.resellticket.co.kr/api/v1/nice/callback-success-from-niceapi/" +
+          params.tokenVersionId;
+
+        document.getElementById("EncodeData").value =
+          document.getElementById("name").value +
+          "|" +
+          document.getElementById("phone").value;
+        document.formPost.submit();
+      }
     }
   </script>
 </html>
