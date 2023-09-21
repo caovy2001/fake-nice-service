@@ -7,13 +7,13 @@
   </head>
   <body>
     <h1>Verify Phone Page (Fake NICE Service)</h1>
-    <form name="formPost" method="post">
+    <form name="formPost" method="get">
       <label>Name</label>
       <input id="name" , name="name" /> <br />
       <label>Phone</label>
       <input id="phone" , name="phone" />
-      <input type="hidden" id="tokenVersionId" name="tokenVersionId" />
-      <input type="hidden" id="EncodeData" name="EncodeData" />
+      <!-- <input type="hidden" id="tokenVersionId" name="tokenVersionId" />
+      <input type="hidden" id="EncodeData" name="EncodeData" /> -->
       <br />
       <br />
     </form>
@@ -24,24 +24,13 @@
     const urlSearchParams = new URLSearchParams(window.location.search);
     const params = Object.fromEntries(urlSearchParams.entries());
     console.log(params);
-    document.getElementById("tokenVersionId").value = params.tokenVersionId;
 
     function submit() {
-      if (document.getElementById("name").value === "FAIL") {
-        document.formPost.action =
-          "https://dev-api.resellticket.co.kr/api/v1/nice/callback-fail-from-niceapi";
-        document.formPost.submit();
-      } else {
-        document.formPost.action =
-          "https://dev-api.resellticket.co.kr/api/v1/nice/callback-success-from-niceapi/" +
-          params.tokenVersionId;
-
-        document.getElementById("EncodeData").value =
-          document.getElementById("name").value +
-          "|" +
-          document.getElementById("phone").value;
-        document.formPost.submit();
-      }
+      const enc_data =
+        document.getElementById("name").value +
+        "|" +
+        document.getElementById("phone").value;
+      window.location.href = `https://dev-api.resellticket.co.kr/api/v1/nice/callback-from-niceapi-test?token_version_id=${params.tokenVersionId}&enc_data=${enc_data}`;
     }
   </script>
 </html>
