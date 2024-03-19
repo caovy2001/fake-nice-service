@@ -11,7 +11,9 @@
     <h1>TEST NICE API</h1>
 
     <form name="form_chk" method="post">
-        <input type="text" id="m" name="m" value="service" />
+        <input type="text" id="m" name="m" value="service" /></br>
+        <input type="text" id="token" name="token" value="" /></br>
+        <input type="text" id="verify_type" name="verify_type" value="NAME" /></br>
         <input type="text" id="enc_data" name="enc_data" /> </br>
         <input type="text" id="integrity_value" name="integrity_value" /> <br>
         <input type="text" id="token_version_id" name="token_version_id" />
@@ -24,13 +26,14 @@
 
     function fnPopup() {
         const result = $.ajax({
-            url: "https://dev-api.resellticket.co.kr/api/v1/nice/create-request-verify",
+            // url: "http://localhost:3000/api/v1/user/nice/create-request-verify?verifyType=" + $("#verify_type").val(),
+            url: "https://dev-api.themmt.me/api/v1/user/nice/create-request-verify?verifyType=" + $("#verify_type").val(),
             type: "GET",
             async: false,
             headers: {
                 Authorization:
                     "Bearer " +
-                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTMzMDM0LCJlbWFpbCI6ImNvbW1vbi1idXllci11c2VyQGdtYWlsLmNvbSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNjk1MjYwNzAwLCJleHAiOjE2OTUzNDcxMDB9.VeLH7QrqF1H5jZLkSuKvrpZNCs4JkfuDa81NP0kf9QM",
+                    $("#token").val(),
             },
             contentType: "application/json",
             success: function (result) {
@@ -48,9 +51,11 @@
             "width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no"
         );
         // document.form_chk.action =
-        //     "https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb";
+        // "https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb";
         document.form_chk.action =
-          "https://dev-api.resellticket.co.kr/api/v1/nice/CheckPlusSafeModel/checkplus.cb";
+            "https://dev-api.themmt.me/api/v1/user/nice/CheckPlusSafeModel/checkplus.cb";
+        // document.form_chk.action =
+        //     "http://localhost:3000/api/v1/user/nice/CheckPlusSafeModel/checkplus.cb";
 
         document.form_chk.target = "popupChk";
         document.form_chk.submit();
