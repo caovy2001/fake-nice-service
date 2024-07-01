@@ -11,19 +11,20 @@
   <h1>Verify Phone Page (Fake NICE Service)</h1>
   <form name="formPost" method="get">
     <label>Name</label>
-    <input id="name" name="name" /> <br />
+    <input id="name" name="name" value="Name Test" /> <br />
     <label>Phone</label>
-    <input id="phone" name="phone" /> <br />
-    <label>Gender</label>
-    <input id="gender" name="gender" /> <br />
+    <input id="phone" name="phone" value="0654321123" /> <br />
+    <label>Gender (Female=0, Male=1)</label>
+    <input id="gender" name="gender" value="0" /> <br />
     <label>Birthdate</label>
-    <input id="birthdate" name="birthdate" /> <br />
+    <input id="birthdate" name="birthdate" value="19860619" /> <br />
     <!-- <input type="hidden" id="tokenVersionId" name="tokenVersionId" />
       <input type="hidden" id="EncodeData" name="EncodeData" /> -->
     <br />
     <br />
   </form>
-  <button onclick="submit()">Submit</button>
+  <button onclick="submit(true)">Submit Success</button>
+  <button onclick="submit(false)">Submit Fail</button>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script language="javascript">
@@ -31,21 +32,23 @@
   const params = Object.fromEntries(urlSearchParams.entries());
   console.log(params);
 
-  function submit() {
+  function submit(isSuccess) {
     const name = document.getElementById("name").value ?? '';
     const phone = document.getElementById("phone").value;
     const gender = document.getElementById("gender").value;
     const birthdate = document.getElementById("birthdate").value;
-    const enc_data =
-      (name != '' ? name : '...') +
-      "|" +
-      (phone != '' ? phone : '...') +
-      "|" +
-      (gender != '' ? gender : '...') +
-      "|" +
-      (birthdate != '' ? birthdate : '...');
-    // window.location.href = `http://localhost:3000/api/v1/user/nice/callback-from-niceapi-test?token_version_id=${params.tokenVersionId}&enc_data=${enc_data}`;
-    window.location.href = `https://dev-api.themmt.me/api/v1/user/nice/callback-from-niceapi-test?token_version_id=${params.tokenVersionId}&enc_data=${enc_data}`;
+    const enc_data = {
+      name: name,
+      mobileno: phone,
+      gender: gender,
+      birthdate: birthdate,
+      receivedata: {
+        verifyType: 'ALL'
+      },
+      resultcode: isSuccess? '0000': '0001'
+    }
+    // window.location.href = `http://localhost:3000/api/v1/user/nice/callback-from-niceapi-test?token_version_id=${params.tokenVersionId}&enc_data=${JSON.stringify(enc_data)}`;
+    window.location.href = `https://dev-api.themmt.me/api/v1/user/nice/callback-from-niceapi-test?token_version_id=${params.tokenVersionId}&enc_data=${JSON.stringify(enc_data)}`;
   }
 </script>
 

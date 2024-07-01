@@ -11,9 +11,10 @@
     <h1>TEST NICE API</h1>
 
     <form name="form_chk" method="post">
-        <input type="text" id="m" name="m" value="service" /></br>
+        <input type="text" id="m" name="m" value="service" hidden="true"/></br>
+        <label>Token: </label>
         <input type="text" id="token" name="token" value="" /></br>
-        <input type="text" id="verify_type" name="verify_type" value="NAME" /></br>
+        <input type="text" id="verify_type" name="verify_type" value="ALL" hidden="true"/></br>
         <input type="text" id="enc_data" name="enc_data" /> </br>
         <input type="text" id="integrity_value" name="integrity_value" /> <br>
         <input type="text" id="token_version_id" name="token_version_id" />
@@ -26,8 +27,8 @@
 
     function fnPopup() {
         const result = $.ajax({
-            // url: "http://localhost:3000/api/v1/user/nice/create-request-verify?verifyType=" + $("#verify_type").val(),
-            url: "https://dev-api.themmt.me/api/v1/user/nice/create-request-verify?verifyType=" + $("#verify_type").val(),
+            // url: "http://localhost:3000/api/v1/user/nice/create-request-verify?verifyType=" + $("#verify_type").val() + "&state=https://google.com.vn",
+            url: "https://dev-api.themmt.me/api/v1/user/nice/create-request-verify?verifyType=" + $("#verify_type").val() + "&state=https://google.com.vn",
             type: "GET",
             async: false,
             headers: {
